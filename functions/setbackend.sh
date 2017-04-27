@@ -43,6 +43,3 @@ function setbackend() {
     esac
 }
 
-function checkpkg() {
-    
-}
