@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-# unipac.sh - Many distros, one package management solution (Hopefully).
+# Expects to be called from main script - not standalone!
 
 function setbackend() {
     distro="$(egrep -i "^id=" /etc/os-release | cut -d"=" -f2)"  
