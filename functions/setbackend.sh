@@ -32,11 +32,10 @@ function setbackend() {
         ;;
     "rhel"|"centos"|"fedora")                                           # Found .rpm-based distro
         abdistro="rpm"
-        backend="dnf"
-        install="install"
-        remove="remove"
-        update="update"
-        check="info installed"
+        install="dnf install"
+        remove="dnf remove"
+        update="dnf update"
+        check="dnf info installed"
         devpkg="-devel"
         ;;
     *)
