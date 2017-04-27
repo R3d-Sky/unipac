@@ -12,6 +12,7 @@ function setbackend() {
         remove="pacman -Rns"
         update="pacman -Syu"
         check="pacman -Q"                                               # For future use
+        noconfirm="--noconfirm"
         devpkg=""                                                       # Arch Linux packages include headers by default
         ;;
     "ubuntu"|"debian"|"linuxmint")                                      # Found .deb-based distro
@@ -19,7 +20,8 @@ function setbackend() {
         install="apt-get install"
         remove="apt-get remove"
         update="apt-get update"
-        check=""                                                        # TODO: Find out how to check properly
+        check=""                                                        # For future use
+        noconfirm="-y"
         devpkg="-dev"
         ;;
     "gentoo")
@@ -27,7 +29,8 @@ function setbackend() {
         install="emerge"
         remove="emerge --depclean"
         update="emerge --sync"
-        check=""                                                        # TODO: Find me all the things
+        check=""                                                        # For future use
+        noconfirm=""                                                    # noconfirm risky on Gentoo, disabled
         devpkg=""                                                       # Gentoo packages include headers by default
         ;;
     "rhel"|"centos"|"fedora")                                           # Found .rpm-based distro
@@ -35,7 +38,8 @@ function setbackend() {
         install="dnf install"
         remove="dnf remove"
         update="dnf update"
-        check="dnf info installed"
+        check="dnf info installed"                                      # For future use
+        noconfirm="-y"
         devpkg="-devel"
         ;;
     *)

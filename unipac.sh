@@ -59,11 +59,11 @@ eval set -- "$parsedopts"
 while true; do
     case "$1" in
         -d|--dev)
-           pkglist="$pkglist $(devpkg $2)"
+            cmdline="$cmdline $(devpkg $2)"
             shift 2
             ;;
         -y|--yestoall)
-            yestoall=true
+            cmdline="$cmdline $noconfirm"
             shift
             ;;
         --)
@@ -73,7 +73,7 @@ while true; do
             if [[ -z "$1" ]]; then
                break 2
             fi
-            pkglist="$pkglist $1"
+            cmdline="$cmdline $1"
             shift
             ;;
     esac
@@ -82,16 +82,16 @@ done
 # Perform action
 case $operation in
     "install")
-        echo Running \'$install $pkglist\' as root...
-        as_root "$install $pkglist"
+        echo Running \'$install $cmdline\' as root...
+        as_root "$install $cmdline"
         ;;
     "remove")
-        echo Running \'$remove $pkglist\' as root...
-        as_root $remove $pkglist
+        echo Running \'$remove $cmdline\' as root...
+        as_root $remove $cmdline
         ;;
     "update")
         echo Running \'$update\' as root...
-        as_root $update
+        as_root $update $cmdline
         ;;
     *)
         echo "Programming Error: File a bug!"
