@@ -6,6 +6,8 @@ source functions/setbackend.sh
 source functions/devpkg.sh
 source functions/help.sh
 source functions/root.sh
+
+# Get distro
 setbackend
 
 # Test for GNU getopt from util-linux
@@ -19,15 +21,15 @@ fi
 # Get current operation
 case $1 in
     "install")
-        OPERATION="install"
+        operation="install"
         shift
         ;;
     "remove")
-        OPERATION="remove"
+        operation="remove"
         shift
         ;;
     "sync")
-        OPERATION="update"
+        operation="update"
         shift
         ;;
     "help")
@@ -41,17 +43,17 @@ case $1 in
 esac
 
 # Options to parse via getopt
-SHORT=d:y
-LONG=dev:,yestoall
+shortopts="d:y"
+longopts="dev:,yestoall"
 
-PARSED=$(getopt --options $SHORT --longoptions $LONG --name "$0" -- "$@")
+parsedopts=$(getopt --options $shortopts --longoptions $longopts --name "$0" -- "$@")
 if [[ $? -ne 0 ]]; then
     # getopt failed: probably because the script is broken
     echo "Unable to parse options"
     exit 3
 fi
 
-eval set -- "$PARSED"
+eval set -- "$parsedopts"
 
 # Sorting through options for packages and auto
 while true; do
@@ -78,7 +80,7 @@ while true; do
 done
 
 # Perform action
-case $OPERATION in
+case $operation in
     "install")
         echo Running \'$install $pkglist\' as root...
         as_root "$install $pkglist"

@@ -1,4 +1,4 @@
-# UniPac v0.1
+# UniPac v0.1.1
 An unbelieveably wonky Distro-agnostic package management. Currently uses lots of hacks because I'm terrible at shell scripts. Works tho!
 
 ## What is tested
