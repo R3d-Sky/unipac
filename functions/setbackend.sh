@@ -6,39 +6,39 @@ function setbackend() {
     distro="$(egrep -i "^id=" /etc/os-release | cut -d"=" -f2)"  
     
     case $distro in
-    "arch"|"archarm")
-        $backend = "pacman"
-        $install = "-S"
-        $remove = "-Rns"
-        $update = "-Syu"
-        $check = "" # TODO: Find out this
-        $devpkg = ""
+    "arm"|"archarm")
+        install="pacman -S"
+        remove="pacman -Rns"
+        update="pacman -Syu"
+        check="pacman -Q"
+        devpkg="" # Arch Linux packages include headers by default
         ;;
     "ubuntu"|"debian"|"linuxmint")
-        $backend = "apt-get"
-        $install = "install"
-        $remove = "remove"
-        $update = "update"
+        install="apt-get install"
+        remove="apt-get remove"
+        update="apt-get update"
+        check="" # TODO: Find out this as well
+        devpkg="-dev"
         ;;
     "gentoo")
-        # TODO: Verify Gentoo syntax
-        $backend = "emerge"
-        $install = ""
-        $remove = "--depclean"
-        $update = "--sync"
+        install="emerge"
+        remove="emerge --depclean"
+        update="emerge --sync"
+        check="" # TODO: Find me all the things
+        devpkg="" # Gentoo packages include headers by default
         ;;
     "rhel"|"centos"|"fedora")
-        # TODO: Verify .rpm sytnax
-        $backend = "dnf"
-        $install = "install"
-        $remove = "remove"
-        $update = "update"
-        $check = "info installed"
-        $devpkg = "-devel"
+        backend="dnf"
+        install="install"
+        remove="remove"
+        update="update"
+        check="info installed"
+        devpkg="-devel"
+        ;;
     *)
-        $backend = $(which false)
-        $install = ""
-        $remove = ""
+        backend=$(which false)
+        install=""
+        remove=""
         ;;
     esac
 }

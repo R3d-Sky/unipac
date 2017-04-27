@@ -4,7 +4,7 @@
 
 function devpkg() {
     # Requires calling setbackend or having variables set
-    if [[ $backend = "" ]] then;
+    if [[ $backend = "" ]]; then
         setbackend;
     fi
     echo $@$devpkg
