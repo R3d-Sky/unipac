@@ -10,6 +10,7 @@ setbackend
 
 BLANK=" "
 
+# Test for GNU getopt from util-linux
 getopt --test > /dev/null
 if [[ $? -ne 4 ]]; then
     echo "`getopt --test` failed in this environment."
@@ -17,6 +18,7 @@ if [[ $? -ne 4 ]]; then
     exit 2
 fi
 
+# Get current operation
 case $1 in
     "install")
         OPERATION="install"
@@ -30,12 +32,17 @@ case $1 in
         OPERATION="update"
         shift
         ;;
+    "help")
+        run_help
+        exit 0;
+        ;;
     *)
         echo "Invalid syntax"
         run_help
         exit 1;
 esac
 
+# Options to parse via getopt
 SHORT=d:y
 LONG=dev:,yestoall
 
@@ -48,7 +55,7 @@ fi
 
 eval set -- "$PARSED"
 
-# now enjoy the options in order and nicely split until we see --
+# Sorting through options for packages and auto
 while true; do
     case "$1" in
         -d|--dev)
@@ -71,6 +78,7 @@ while true; do
     esac
 done
 
+# Perform action
 case $OPERATION in
     "install")
         echo $install
