@@ -81,13 +81,15 @@ done
 # Perform action
 case $OPERATION in
     "install")
-        echo $install
+        echo Running $install $pkglist as root...
         as_root "$install $pkglist"
         ;;
     "remove")
+        echo Running $remove $pkglist as root...
         as_root $remove $pkglist
         ;;
     "update")
+        echo Running $update as root...
         as_root $update
         ;;
     *)
