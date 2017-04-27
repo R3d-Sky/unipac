@@ -1,4 +1,4 @@
-# UniPac v0.1.1
+# UniPac beta v0.99
 An *slightly less clumsy* Distro-agnostic package management solution.
 
 ## What is tested
@@ -16,9 +16,9 @@ Arch Linux, Ubuntu/Linux Mint, Debian, Gentoo and Fedora/RHEL/CentOS *should* wo
 - Automatically add -dev(el) on .deb and .rpm based distros when using option -d before package
 - Install and remove packages without need for specifying platform
 - Sync (i.e. update) local repo caches
+- Automated installs (i.e. pass --noconfirm/--yes to package manager)
 
 ## Coming Soon!(TM)
 - Map package names based on distros
-- Automated installs
-
+- Arch Linux AUR support
 
