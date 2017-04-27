@@ -1,5 +1,5 @@
 # UniPac v0.1.1
-An unbelieveably wonky Distro-agnostic package management. Currently uses lots of hacks because I'm terrible at shell scripts. Works tho!
+An *slightly less clumsy* Distro-agnostic package management solution.
 
 ## What is tested
 Arch Linux
