@@ -5,6 +5,8 @@
 source functions/setbackend.sh
 source functions/devpkg.sh
 source functions/help.sh
+source functions/root.sh
+setbackend
 
 BLANK=" "
 
@@ -16,22 +18,22 @@ if [[ $? -ne 4 ]]; then
 fi
 
 case $1 in
-    install)
-        OPERATION=install
+    "install")
+        OPERATION="install"
         shift
         ;;
-    remove)
-        OPERATION=remove
+    "remove")
+        OPERATION="remove"
         shift
         ;;
-    sync)
-        OPERATION=update
+    "sync")
+        OPERATION="update"
         shift
         ;;
     *)
         echo "Invalid syntax"
         run_help
-        exit 2;
+        exit 1;
 esac
 
 SHORT=d:y
@@ -50,7 +52,7 @@ eval set -- "$PARSED"
 while true; do
     case "$1" in
         -d|--dev)
-            pacName=$pacName$BLANK$(devpkg $2)
+           pkglist=$pkglist$BLANK$(devpkg $2)
             shift 2
             ;;
         -y|--yestoall)
@@ -62,13 +64,29 @@ while true; do
             ;;
         *)
             if [[ $1 != "" ]]; then
-                pacName=$pacName$BLANK$1
+               pkglist=$pkglist$BLANK$1
             fi
             break
             ;;
     esac
 done
 
+case $OPERATION in
+    "install")
+        echo $install
+        as_root "$install $pkglist"
+        ;;
+    "remove")
+        as_root $remove $pkglist
+        ;;
+    "update")
+        as_root $update
+        ;;
+    *)
+        echo "Programming Error: File a bug!"
+        exit 5
+        ;;
+esac
 
 
 

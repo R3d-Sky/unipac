@@ -6,7 +6,8 @@ function setbackend() {
     distro="$(egrep -i "^id=" /etc/os-release | cut -d"=" -f2)"  
     
     case $distro in
-    "arm"|"archarm")
+    "arch"|"archarm")
+        abdistro="arch"
         install="pacman -S"
         remove="pacman -Rns"
         update="pacman -Syu"
@@ -14,6 +15,7 @@ function setbackend() {
         devpkg="" # Arch Linux packages include headers by default
         ;;
     "ubuntu"|"debian"|"linuxmint")
+        abdistro="deb"
         install="apt-get install"
         remove="apt-get remove"
         update="apt-get update"
@@ -21,6 +23,7 @@ function setbackend() {
         devpkg="-dev"
         ;;
     "gentoo")
+        abdistro="gentoo"
         install="emerge"
         remove="emerge --depclean"
         update="emerge --sync"
@@ -28,6 +31,7 @@ function setbackend() {
         devpkg="" # Gentoo packages include headers by default
         ;;
     "rhel"|"centos"|"fedora")
+        abdistro="rpm"
         backend="dnf"
         install="install"
         remove="remove"
@@ -36,9 +40,8 @@ function setbackend() {
         devpkg="-devel"
         ;;
     *)
-        backend=$(which false)
-        install=""
-        remove=""
+        echo "Unsupported distro :("
+        return 2;
         ;;
     esac
 }
