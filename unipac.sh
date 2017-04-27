@@ -8,8 +8,6 @@ source functions/help.sh
 source functions/root.sh
 setbackend
 
-BLANK=" "
-
 # Test for GNU getopt from util-linux
 getopt --test > /dev/null
 if [[ $? -ne 4 ]]; then
@@ -48,7 +46,7 @@ LONG=dev:,yestoall
 
 PARSED=$(getopt --options $SHORT --longoptions $LONG --name "$0" -- "$@")
 if [[ $? -ne 0 ]]; then
-    # getopt failed: probably because someone broke the script or terrible input
+    # getopt failed: probably because the script is broken
     echo "Unable to parse options"
     exit 3
 fi
@@ -59,7 +57,7 @@ eval set -- "$PARSED"
 while true; do
     case "$1" in
         -d|--dev)
-           pkglist=$pkglist$BLANK$(devpkg $2)
+           pkglist="$pkglist $(devpkg $2)"
             shift 2
             ;;
         -y|--yestoall)
@@ -70,10 +68,11 @@ while true; do
             shift
             ;;
         *)
-            if [[ $1 != "" ]]; then
-               pkglist=$pkglist$BLANK$1
+            if [[ -z "$1" ]]; then
+               break 2
             fi
-            break
+            pkglist="$pkglist $1"
+            shift
             ;;
     esac
 done
@@ -81,15 +80,15 @@ done
 # Perform action
 case $OPERATION in
     "install")
-        echo Running $install $pkglist as root...
+        echo Running \'$install $pkglist\' as root...
         as_root "$install $pkglist"
         ;;
     "remove")
-        echo Running $remove $pkglist as root...
+        echo Running \'$remove $pkglist\' as root...
         as_root $remove $pkglist
         ;;
     "update")
-        echo Running $update as root...
+        echo Running \'$update\' as root...
         as_root $update
         ;;
     *)
