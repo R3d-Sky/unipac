@@ -40,7 +40,7 @@ esac
 # Test for GNU getopt from util-linux
 getopt --test > /dev/null
 
-if [[ $? != 4 ]]; then
+if [[ $? == 4 ]]; then
     parsedopts=$(getopt --options $shortopts --longoptions $longopts --name "$0" -- "$@")
     eval set -- "$parsedopts"
 
