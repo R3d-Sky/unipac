@@ -11,7 +11,7 @@ source functions/root.sh
 setbackend
 
 # Options to parse via getopt(s)
-shortopts="d:y"
+shortopts="d:p:y"
 longopts="dev:,yestoall"
 
 case $1 in
@@ -55,15 +55,13 @@ if [[ $? == 4 ]]; then
                 cmdline="$cmdline $noconfirm"
                 shift
                 ;;
-            --)
-                shift
+            -p|--package)
+                cmdline="$cmdline $2"
+                shift 2
                 ;;
             *)
-                if [[ -z "$1" ]]; then
-                    break 2
-                fi
-                cmdline="$cmdline $1"
                 shift
+                break
                 ;;
         esac
     done
@@ -71,7 +69,7 @@ else
     echo "'getopt --test' failed in this environment."
     echo "This script requires GNU getopt for long options"
     echo "Using shell built-in getopts (UNSUPPORTED)"
-    echo "Requires -p before each non-dev package"
+    echo "Requires -p before each non-dev package!"
     
     while getopts $shortopts name; do
         case $name in
