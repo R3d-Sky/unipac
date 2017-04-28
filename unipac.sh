@@ -12,7 +12,7 @@ setbackend
 
 # Options to parse via getopt(s)
 shortopts="d:p:y"
-longopts="dev:,yestoall"
+longopts="dev:,package:,yestoall"
 
 case $1 in
     "install")
@@ -67,9 +67,8 @@ if [[ $? == 4 ]]; then
     done
 else
     echo "'getopt --test' failed in this environment."
-    echo "This script requires GNU getopt for long options"
-    echo "Using shell built-in getopts (UNSUPPORTED)"
-    echo "Requires -p before each non-dev package!"
+    echo "This script requires GNU getopt for long options."
+    echo "Using shell built-in getopts."
     
     while getopts $shortopts name; do
         case $name in

@@ -8,12 +8,7 @@ function setbackend() {
     case $distro in
     "arch"|"archarm")                                                   # Found Archlinux-like
         abdistro="arch"
-        install="pacman -S"
-        remove="pacman -Rns"
-        update="pacman -Syu"
-        check="pacman -Q"                                               # For future use
-        noconfirm="--noconfirm"
-        devpkg=""                                                       # Arch Linux packages include headers by default
+        source backends/arch.sh
         ;;
     "ubuntu"|"debian"|"linuxmint")                                      # Found .deb-based distro
         abdistro="deb"
