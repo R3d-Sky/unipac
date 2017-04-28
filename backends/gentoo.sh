@@ -1,15 +1,16 @@
-#!/bin/bash
+#!/bin/sh
 # Gentoo is UNSUPPORTED!
 
-source functions/root.sh
+. ./functions/root.sh
 
 devpkg=""
+functions="install remove update"
 
 function install() {
-    if [[ "$noconfirm" == "true" ]]; then
-        cmdline="-y $@"
+    if [ "$noconfirm" = "true" ]; then
+        cmdline="-y $*"
     else
-        cmdline="$@"
+        cmdline="$*"
     fi
     echo "Running 'emerge $cmdline' as root."
     as_root "emerge $cmdline"
@@ -17,10 +18,10 @@ function install() {
 }
 
 function remove() {
-    if [[ "$noconfirm" == "true" ]]; then
-        cmdline="-y $@"
+    if [ "$noconfirm" = "true" ]; then
+        cmdline="-y $*"
     else
-        cmdline="$@"
+        cmdline="$*"
     fi
     echo "Running 'emerge -cav $cmdline' as root."
     as_root "emerge -cav $cmdline"
@@ -28,10 +29,10 @@ function remove() {
 }
 
 function update() {
-    if [[ "$noconfirm" == "true" ]]; then
-        cmdline="-y $@"
+    if [ "$noconfirm" = "true" ]; then
+        cmdline="-y $*"
     else
-        cmdline="$@"
+        cmdline="$*"
     fi
     echo "Running 'emaint -a sync $cmdline' as root."
     as_root "emaint -a sync $cmdline"

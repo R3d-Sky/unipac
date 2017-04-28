@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 
 # Outputs help for unipac.sh
 
 function run_help() {
-    echo "Unipac v0.99"
+    echo "Unipac v1.0"
     echo "Usage: $0 [command] packages"
     echo
     echo "Unipac is a commandline wrapper that uses the distro's"
@@ -14,7 +14,7 @@ function run_help() {
     echo "Commands:"
     echo "install: install packages"
     echo "remove: remove packages"
-    echo "sync: update list of available packages"
+    echo "update: update list of available packages"
     echo
     echo "Use -d [--dev] before a package name to automatically detect"
     echo "and install correct header package."

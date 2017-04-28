@@ -1,10 +1,15 @@
-#!/bin/bash
+#!/bin/sh
 
 # Source functions
 
-source functions/setbackend.sh
-source functions/devpkg.sh
-source functions/help.sh
+# shellcheck source=functions/setbackend.sh
+. ./functions/setbackend.sh
+# shellcheck source=functions/devpkg.sh
+. ./functions/devpkg.sh
+# shellcheck source=functions/help.sh
+. ./functions/help.sh
+# shellcheck source=functions/getcommand.sh
+. ./functions/getcommand.sh
 
 # Get distro
 setbackend
@@ -13,41 +18,25 @@ setbackend
 shortopts="d:p:y"
 longopts="dev:,package:,yestoall"
 
-case $1 in
-    "install")
-        operation="install"
-        shift
-        ;;
-    "remove")
-        operation="remove"
-        shift
-        ;;
-    "sync")
-        operation="update"
-        shift
-        ;;
-    "help")
-        run_help
-        exit 0;
-        ;;
-    *)
-        echo "Invalid syntax"
-        run_help
-        exit 1;
-esac
+# Check operation
+
+
+# Exit if getcommand fails
+if getcommand "$1"; then exit $?; fi
+shift
 
 # Test for GNU getopt from util-linux
-getopt --test > /dev/null
 
-if [[ $? == 4 ]]; then
-    parsedopts=$(getopt --options $shortopts --longoptions $longopts --name "$0" -- "$@")
+getopt --test > /dev/null
+if [ "$?" = 4 ] ; then
+    parsedopts=$(getopt --options $shortopts --longoptions $longopts --name "$0" -- "$*")
     eval set -- "$parsedopts"
 
     # Sorting through options for packages and auto
     while true; do
         case "$1" in
             -d|--dev)
-                cmdline="$cmdline $(getdevpkg $2)"
+                cmdline="$cmdline $(getdevpkg "$2")"
                 shift 2
                 ;;
             -y|--yestoall)
@@ -75,14 +64,13 @@ else
             noconfirm="true"
             ;;
             d)
-            cmdline="$cmdline $(getdevpkg $OPTARG)"
+            cmdline="$cmdline $(getdevpkg "$OPTARG")"
             ;;
             p)
             cmdline="$cmdline $OPTARG"
             ;;
             ?)   
-            echo $OPTARG
-            echo $name
+            echo "Invalid option"
             exit 2
             ;;
         esac
@@ -93,20 +81,20 @@ fi
 # Perform action
 case $operation in
     "install")
-        install $cmdline
+        install "$cmdline"
         ;;
     "remove")
-        remove $cmdline
+        remove "$cmdline"
         ;;
     "update")
-        echo Running \'$update\' as root...
-        as_root $update $cmdline
+        update "$cmdline"
         ;;
     *)
         echo "Programming Error: File a bug!"
         exit 5
         ;;
 esac
+return $?
 
 
 

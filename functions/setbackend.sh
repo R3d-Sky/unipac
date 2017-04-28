@@ -1,31 +1,37 @@
-#!/usr/bin/bash
+#!/usr/bin/sh
 
 # Use /etc/os-release to get ID and compare to a set of known values
 
 function setbackend() {
-    distro="$(egrep -i "^id=" /etc/os-release | cut -d"=" -f2)"         # Filters to ID in /etc/os-release
-                                                                        # sourcing it is bad because we don't assume POSIX Complicance
+    distro="$(egrep -i "^id=" /etc/os-release | cut -d"=" -f2)"
+
     case $distro in
-    "arch"|"archarm")                                                   # Found Archlinux-like
+    "arch"|"archarm")
         abdistro="arch"
-        source backends/arch.sh
+        # shellcheck source=backends/arch.sh
+        . ./backends/arch.sh
         ;;
-    "ubuntu"|"debian"|"linuxmint")                                      # Found .deb-based distro
+    "ubuntu"|"debian"|"linuxmint")
         abdistro="deb"
-        source backends/debian.sh
+        # shellcheck source=backends/debian.sh
+        . ./backends/debian.sh
         ;;
     "gentoo")
         abdistro="gentoo"
-        source backends/gentoo.sh                                                       # Gentoo packages include headers by default
+        # shellcheck source=backends/gentoo.sh
+        . ./backends/gentoo.sh
         ;;
-    "rhel"|"centos"|"fedora")                                           # Found .rpm-based distro
+    "rhel"|"centos"|"fedora")
         abdistro="rpm"
-        source backends/rpm.sh
+        # shellcheck source=backends/rpm.sh
+        . ./backends/rpm.sh
         ;;
     *)
         echo "Unsupported distro :("
         return 2;
         ;;
     esac
+    
+    functions="$functions help"
 }
 

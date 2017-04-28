@@ -1,14 +1,15 @@
-#!/bin/bash
+#!/bin/sh
 
-source functions/root.sh
+. ./functions/root.sh
 
 devpkg="-dev"
+functions="install remove update"
 
 function install() {
-    if [[ "$noconfirm" == "true" ]]; then
-        cmdline="-y $@"
+    if [ "$noconfirm" = "true" ]; then
+        cmdline="-y $*"
     else
-        cmdline="$@"
+        cmdline="$*"
     fi
     echo "Running 'apt-get install $cmdline' as root."
     as_root "apt-get install $cmdline"
@@ -16,10 +17,10 @@ function install() {
 }
 
 function remove() {
-    if [[ "$noconfirm" == "true" ]]; then
-        cmdline="-y $@"
+    if [ "$noconfirm" = "true" ]; then
+        cmdline="-y $*"
     else
-        cmdline="$@"
+        cmdline="$*"
     fi
     echo "Running 'apt-get remove $cmdline' as root."
     as_root "apt-get remove $cmdline"
@@ -27,10 +28,10 @@ function remove() {
 }
 
 function update() {
-    if [[ "$noconfirm" == "true" ]]; then
-        cmdline="-y $@"
+    if [ "$noconfirm" = "true" ]; then
+        cmdline="-y $*"
     else
-        cmdline="$@"
+        cmdline="$*"
     fi
     echo "Running 'apt-get update $cmdline' as root."
     as_root "apt-get update $cmdline"
