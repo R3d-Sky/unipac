@@ -5,7 +5,6 @@
 source functions/setbackend.sh
 source functions/devpkg.sh
 source functions/help.sh
-source functions/root.sh
 
 # Get distro
 setbackend
@@ -48,11 +47,11 @@ if [[ $? == 4 ]]; then
     while true; do
         case "$1" in
             -d|--dev)
-                cmdline="$cmdline $(devpkg $2)"
+                cmdline="$cmdline $(getdevpkg $2)"
                 shift 2
                 ;;
             -y|--yestoall)
-                cmdline="$cmdline $noconfirm"
+                noconfirm="true"
                 shift
                 ;;
             -p|--package)
@@ -73,10 +72,10 @@ else
     while getopts $shortopts name; do
         case $name in
             y)  
-            cmdline="$cmdline $noconfirm"
+            noconfirm="true"
             ;;
             d)
-            cmdline="$cmdline $(devpkg $OPTARG)"
+            cmdline="$cmdline $(getdevpkg $OPTARG)"
             ;;
             p)
             cmdline="$cmdline $OPTARG"
@@ -94,12 +93,10 @@ fi
 # Perform action
 case $operation in
     "install")
-        echo Running \'$install $cmdline\' as root...
-        as_root "$install $cmdline"
+        install $cmdline
         ;;
     "remove")
-        echo Running \'$remove $cmdline\' as root...
-        as_root $remove $cmdline
+        remove $cmdline
         ;;
     "update")
         echo Running \'$update\' as root...

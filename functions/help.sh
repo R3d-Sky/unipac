@@ -16,8 +16,10 @@ function run_help() {
     echo "remove: remove packages"
     echo "sync: update list of available packages"
     echo
-    echo "Use -d [--dev] before a package name to automatically detect."
+    echo "Use -d [--dev] before a package name to automatically detect"
     echo "and install correct header package."
+    echo
+    echo "Use -p [--package] to install a standard package."
     echo
     echo "Use -y [--yestoall] to run without requiring user input."
 }

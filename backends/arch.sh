@@ -2,11 +2,14 @@
 
 source functions/root.sh
 
+# Arch Linux includes headers
+devpkg=""
+
 function install() {
     if [[ "$noconfirm" == "true" ]]; then
-        $cmdline = "--noconfirm $@"
+        cmdline="--noconfirm $@"
     else
-        $cmdline = "$@"
+        cmdline="$@"
     fi
     echo "Running 'pacman -S $cmdline' as root."
     as_root "pacman -S $cmdline"
@@ -15,9 +18,9 @@ function install() {
 
 function remove() {
     if [[ "$noconfirm" == "true" ]]; then
-        $cmdline = "--noconfirm $@"
+        cmdline="--noconfirm $@"
     else
-        $cmdline = "$@"
+        cmdline="$@"
     fi
     echo "Running 'pacman -Rns $cmdline' as root."
     as_root "pacman -Rns $cmdline"
@@ -26,9 +29,9 @@ function remove() {
 
 function update() {
     if [[ "$noconfirm" == "true" ]]; then
-        $cmdline = "--noconfirm $@"
+        cmdline="--noconfirm $@"
     else
-        $cmdline = "$@"
+        cmdline="$@"
     fi
     echo "Running 'pacman -Syu $cmdline' as root."
     as_root "pacman -Syu $cmdline"
