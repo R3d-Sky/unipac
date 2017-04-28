@@ -4,7 +4,7 @@ devpkg=""
 functions="install remove update check"
 
 function install() {
-    if [ "$noconfirm" == "true" ]; then
+    if [[ "$noconfirm" == "true" ]]; then
         cmdline="--noconfirm $@"
     else
         cmdline="$@"
@@ -15,7 +15,7 @@ function install() {
 }
 
 function remove() {
-    if [ "$noconfirm" == "true" ]; then
+    if [[ "$noconfirm" == "true" ]]; then
         cmdline="--noconfirm $@"
     else
         cmdline="$@"
@@ -26,7 +26,7 @@ function remove() {
 }
 
 function update() {
-    if [ "$noconfirm" == "true" ]; then
+    if [[ "$noconfirm" == "true" ]]; then
         cmdline="--noconfirm $@"
     else
         cmdline="$@"
