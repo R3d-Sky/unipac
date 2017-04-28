@@ -10,14 +10,14 @@ function run_help() {
     echo "package manager to install, upgrade or remove packages."
     echo "It is currently in beta, so use wisely."
     echo "Primarily meant for automating scripts."
-
+    echo
     echo "Commands:"
     echo "install: install packages"
     echo "remove: remove packages"
     echo "sync: update list of available packages"
-
+    echo
     echo "Use -d [--dev] before a package name to automatically detect."
     echo "and install correct header package."
-    
+    echo
     echo "Use -y [--yestoall] to run without requiring user input."
 }

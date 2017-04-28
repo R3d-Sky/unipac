@@ -10,15 +10,10 @@ source functions/root.sh
 # Get distro
 setbackend
 
-# Test for GNU getopt from util-linux
-getopt --test > /dev/null
-if [[ $? -ne 4 ]]; then
-    echo "`getopt --test` failed in this environment."
-    echo "This script requires GNU getopt"
-    exit 2
-fi
+# Options to parse via getopt(s)
+shortopts="d:y"
+longopts="dev:,yestoall"
 
-# Get current operation
 case $1 in
     "install")
         operation="install"
@@ -42,42 +37,62 @@ case $1 in
         exit 1;
 esac
 
-# Options to parse via getopt
-shortopts="d:y"
-longopts="dev:,yestoall"
+# Test for GNU getopt from util-linux
+getopt --test > /dev/null
 
-parsedopts=$(getopt --options $shortopts --longoptions $longopts --name "$0" -- "$@")
-if [[ $? -ne 0 ]]; then
-    # getopt failed: probably because the script is broken
-    echo "Unable to parse options"
-    exit 3
-fi
+if [[ $? != 4 ]]; then
+    parsedopts=$(getopt --options $shortopts --longoptions $longopts --name "$0" -- "$@")
+    eval set -- "$parsedopts"
 
-eval set -- "$parsedopts"
-
-# Sorting through options for packages and auto
-while true; do
-    case "$1" in
-        -d|--dev)
-            cmdline="$cmdline $(devpkg $2)"
-            shift 2
-            ;;
-        -y|--yestoall)
+    # Sorting through options for packages and auto
+    while true; do
+        case "$1" in
+            -d|--dev)
+                cmdline="$cmdline $(devpkg $2)"
+                shift 2
+                ;;
+            -y|--yestoall)
+                cmdline="$cmdline $noconfirm"
+                shift
+                ;;
+            --)
+                shift
+                ;;
+            *)
+                if [[ -z "$1" ]]; then
+                    break 2
+                fi
+                cmdline="$cmdline $1"
+                shift
+                ;;
+        esac
+    done
+else
+    echo "'getopt --test' failed in this environment."
+    echo "This script requires GNU getopt for long options"
+    echo "Using shell built-in getopts (UNSUPPORTED)"
+    echo "Requires -p before each non-dev package"
+    
+    while getopts $shortopts name; do
+        case $name in
+            y)  
             cmdline="$cmdline $noconfirm"
-            shift
             ;;
-        --)
-            shift
+            d)
+            cmdline="$cmdline $(devpkg $OPTARG)"
             ;;
-        *)
-            if [[ -z "$1" ]]; then
-               break 2
-            fi
-            cmdline="$cmdline $1"
-            shift
+            p)
+            cmdline="$cmdline $OPTARG"
             ;;
-    esac
-done
+            ?)   
+            echo $OPTARG
+            echo $name
+            exit 2
+            ;;
+        esac
+    done
+
+fi
 
 # Perform action
 case $operation in
