@@ -1,5 +1,3 @@
-#!/bin/sh
-
 # Outputs help for unipac.sh
 
 function run_help() {

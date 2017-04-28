@@ -1,5 +1,3 @@
-#!/bin/sh
-
 function contains() {
     string="$1"
     substring="$2"

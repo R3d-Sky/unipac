@@ -1,40 +1,41 @@
 #!/bin/sh
 
-. ./functions/root.sh
+# TODO: Fallback to yum when dnf not found
+source functions/root.sh
 
 devpkg="-devel"
 functions="install remove update"
 
 function install() {
-    if [ "$noconfirm" = "true" ]; then
-        cmdline="-y $*"
+    if [ "$noconfirm" == "true" ]; then
+        cmdline="-y $@"
     else
-        cmdline="$*"
+        cmdline="$@"
     fi
-    echo "Running 'dnf install $cmdline' as root."
-    as_root "dnf install $cmdline"
+    echo "Running 'dnf install ${cmdline}' as root."
+    as_root "dnf install ${cmdline}"
     return $?
 }
 
 function remove() {
-    if [ "$noconfirm" = "true" ]; then
-        cmdline="-y $*"
+    if [ "$noconfirm" == "true" ]; then
+        cmdline="-y $@"
     else
-        cmdline="$*"
+        cmdline="$@"
     fi
-    echo "Running 'dnf remove $cmdline' as root."
-    as_root "dnf remove $cmdline"
+    echo "Running 'dnf remove ${cmdline}' as root."
+    as_root "dnf remove ${cmdline}"
     return $?
 }
 
 function update() {
-    if [ "$noconfirm" = "true" ]; then
-        cmdline="-y $*"
+    if [ "$noconfirm" == "true" ]; then
+        cmdline="-y $@"
     else
-        cmdline="$*"
+        cmdline="$@"
     fi
-    echo "Running 'dnf update $cmdline' as root."
-    as_root "dnf update $cmdline"
+    echo "Running 'dnf update ${cmdline}' as root."
+    as_root "dnf update ${cmdline}"
     return $?
 }
 

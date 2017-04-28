@@ -1,9 +1,5 @@
-#!/bin/sh
-
-# Expects to be called after setbackend
-
 # shellcheck source=functions/contains.sh
-. ./functions/contains.sh
+source functions/contains.sh
 
 function getcommand() {
 case $1 in

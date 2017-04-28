@@ -1,5 +1,3 @@
-#!/usr/bin/sh
-
 # Use /etc/os-release to get ID and compare to a set of known values
 
 function setbackend() {
@@ -9,22 +7,22 @@ function setbackend() {
     "arch"|"archarm")
         abdistro="arch"
         # shellcheck source=backends/arch.sh
-        . ./backends/arch.sh
+        source backends/arch.sh
         ;;
     "ubuntu"|"debian"|"linuxmint")
         abdistro="deb"
         # shellcheck source=backends/debian.sh
-        . ./backends/debian.sh
+        source backends/debian.sh
         ;;
     "gentoo")
         abdistro="gentoo"
         # shellcheck source=backends/gentoo.sh
-        . ./backends/gentoo.sh
+        source backends/gentoo.sh
         ;;
     "rhel"|"centos"|"fedora")
         abdistro="rpm"
         # shellcheck source=backends/rpm.sh
-        . ./backends/rpm.sh
+        source backends/rpm.sh
         ;;
     *)
         echo "Unsupported distro :("
